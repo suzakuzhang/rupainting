@@ -1,68 +1,63 @@
 export default function Home() {
   return (
-    <div className="space-y-10">
-      <section className="space-y-4">
-        <h1 className="text-3xl font-semibold tracking-tight">入画</h1>
-        <p className="text-[var(--muted)] leading-relaxed text-base">
-          一个陪你读画的系统。它不告诉你画的是什么，它带你看见画家如何观察世界、笔墨如何承载精神、
-          题跋印章如何记录千百年的观看史。
-        </p>
-        <p className="text-[var(--muted)] leading-relaxed text-sm">
-          方法论底座来自何慕文《如何读中国画 · 大都会艺术博物馆藏中国书画精品导览》。
-          画作锚点：八大山人册页（明末清初遗民艺术家）。
-        </p>
-      </section>
+    <div className="min-h-[calc(100vh-104px)]">
+      <section className="relative isolate overflow-hidden border-b border-[var(--border)]">
+        <img
+          src="/paintings/bada/raw/page-007-006.jpg"
+          alt=""
+          className="absolute inset-y-0 right-0 -z-10 h-full w-full object-cover opacity-18 blur-[1px] saturate-50 md:w-1/2 md:opacity-35"
+        />
+        <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_72%_28%,rgba(199,169,104,0.16),transparent_34%),linear-gradient(90deg,var(--ink)_0%,rgba(8,8,6,0.96)_48%,rgba(8,8,6,0.58)_100%)]" />
 
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-        <a
-          href="/gallery"
-          className="block border border-[var(--border)] rounded-lg p-6 hover:border-[var(--accent)] transition-colors"
-        >
-          <h2 className="font-semibold mb-2">读一幅画</h2>
-          <p className="text-sm text-[var(--muted)] leading-relaxed">
-            从画库选择一幅作品，按你想要的深度解读
-          </p>
-        </a>
+        <div className="mx-auto grid min-h-[72vh] max-w-7xl items-center gap-10 px-6 py-16 md:grid-cols-[0.95fr_1.05fr]">
+          <div className="ink-rise max-w-2xl space-y-7">
+            <p className="text-xs tracking-[0.42em] text-[var(--muted)]">AI-MEDIATED LOOKING</p>
+            <h1 className="text-5xl font-medium tracking-[0.24em] text-[var(--paper)] md:text-7xl">入画</h1>
+            <p className="max-w-xl text-lg leading-9 text-[var(--paper-dim)]">
+              一个陪你读画的系统。它不急着解释画是什么，而是让画面、笔墨、题跋与印章留在眼前，
+              带你一步一步训练观看。
+            </p>
+            <div className="flex flex-wrap items-center gap-3">
+              <a href="/gallery" className="btn-ink rounded-full px-6 py-3 text-sm font-medium tracking-[0.12em]">
+                进入画廊
+              </a>
+              <a
+                href="/painting/bada-001"
+                className="rounded-full border border-[var(--border)] px-6 py-3 text-sm tracking-[0.12em] text-[var(--paper-dim)] transition-colors hover:border-[var(--gold)] hover:text-[var(--paper)]"
+              >
+                读今日一画
+              </a>
+            </div>
+          </div>
 
-        <a
-          href="/learn"
-          className="block border border-[var(--border)] rounded-lg p-6 hover:border-[var(--accent)] transition-colors"
-        >
-          <h2 className="font-semibold mb-2">学怎么看</h2>
-          <p className="text-sm text-[var(--muted)] leading-relaxed">
-            系统挑一幅作品，带你一步步进入画面
-          </p>
-          <p className="text-xs text-[var(--muted)] mt-2 italic">即将上线</p>
-        </a>
-
-        <a
-          href="/roam"
-          className="block border border-[var(--border)] rounded-lg p-6 hover:border-[var(--accent)] transition-colors"
-        >
-          <h2 className="font-semibold mb-2">画中漫游</h2>
-          <p className="text-sm text-[var(--muted)] leading-relaxed">
-            让你的视线进入画面，从某个具体入口走起
-          </p>
-          <p className="text-xs text-[var(--muted)] mt-2 italic">即将上线</p>
-        </a>
-      </div>
-
-      <section className="space-y-3 pt-4 border-t border-[var(--border)]">
-        <h3 className="text-sm font-semibold">四种模式</h3>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm text-[var(--muted)]">
-          <div><strong className="text-[var(--foreground)]">初见</strong>：像美术馆导览员，亲切，不堆术语</div>
-          <div><strong className="text-[var(--foreground)]">深读</strong>：博雅的学术细读，引用画论与史料</div>
-          <div><strong className="text-[var(--foreground)]">画中漫游</strong>：第二人称引导，进入画面空间</div>
-          <div><strong className="text-[var(--foreground)]">研究笔记</strong>：可保存的 Markdown，给写文章用</div>
+          <div className="surface-ink ink-rise rounded-[6px] p-4 md:p-5">
+            <div className="overflow-hidden rounded-[4px] bg-black/30">
+              <img
+                src="/paintings/bada/raw/page-007-006.jpg"
+                alt="八大山人册页"
+                className="mx-auto max-h-[64vh] w-full object-contain"
+              />
+            </div>
+            <div className="mt-4 flex items-center justify-between gap-4 text-xs text-[var(--muted)]">
+              <span>八大山人 · 册页</span>
+              <span className="text-[var(--gold)]">画面常驻 · 导览在侧</span>
+            </div>
+          </div>
         </div>
       </section>
 
-      <section className="text-xs text-[var(--muted)] space-y-1 pt-4 border-t border-[var(--border)]">
-        <p>本项目是视觉文化解释的研究原型，不构成任何占卜、命运或心理咨询服务。</p>
-        <p>所有解读都基于画面证据与何慕文方法论框架。当 AI 越界时请反馈给我们。</p>
-        <p className="pt-2">
-          <a href="/admin" className="underline hover:text-[var(--foreground)]">管理后台</a>
-        </p>
+      <section className="mx-auto grid max-w-7xl gap-5 px-6 py-10 md:grid-cols-4">
+        {[
+          ["初见", "亲切导览，不堆术语"],
+          ["深读", "笔墨、题跋、史料细读"],
+          ["画中漫游", "从一个视觉入口进入画面"],
+          ["研究笔记", "可保存的 Markdown 观察"],
+        ].map(([title, body]) => (
+          <div key={title} className="border-l border-[var(--border)] py-2 pl-4">
+            <h2 className="text-sm font-medium tracking-[0.18em] text-[var(--paper)]">{title}</h2>
+            <p className="mt-2 text-sm leading-6 text-[var(--muted)]">{body}</p>
+          </div>
+        ))}
       </section>
     </div>
   );

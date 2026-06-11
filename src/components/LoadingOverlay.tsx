@@ -80,11 +80,11 @@ export default function LoadingOverlay({ visible, paintingTitle }: LoadingOverla
   if (!visible) return null;
 
   return (
-    <div className="space-y-4 py-4" aria-live="polite">
-      <p className="text-sm text-[var(--muted)] animate-pulse">{stateText}</p>
-      <div className="w-full bg-gray-200 rounded-full h-1.5 overflow-hidden">
+    <div className="surface-ink space-y-4 rounded-[6px] p-4" aria-live="polite">
+      <p className="text-sm text-[var(--paper-dim)] animate-pulse">{stateText}</p>
+      <div className="h-1.5 w-full overflow-hidden rounded-full bg-black/40">
         <div
-          className="h-full bg-[#1a1a1a] rounded-full transition-all duration-300 ease-out"
+          className="h-full rounded-full bg-[var(--gold)] transition-all duration-300 ease-out"
           style={{ width: `${progress}%` }}
         />
       </div>

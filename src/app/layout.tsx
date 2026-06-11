@@ -13,25 +13,23 @@ export default function RootLayout({
 }) {
   return (
     <html lang="zh-CN">
-      <body className="min-h-screen">
-        <header className="border-b border-[var(--border)] px-6 py-4">
-          <nav className="max-w-5xl mx-auto flex items-center gap-6">
-            <a href="/" className="text-lg font-semibold tracking-wide">
+      <body className="min-h-screen bg-[var(--background)] text-[var(--foreground)]">
+        <header className="sticky top-0 z-30 border-b border-[var(--border)] bg-[rgba(11,10,12,0.88)] px-5 py-3 backdrop-blur">
+          <nav className="mx-auto flex max-w-7xl items-center gap-6">
+            <a href="/" className="text-base font-semibold tracking-[0.22em] text-[var(--paper)] transition-colors hover:text-[var(--gold)]">
               入画
             </a>
-            <a href="/gallery" className="text-sm text-[var(--muted)] hover:text-[var(--foreground)]">
+            <a href="/gallery" className="text-xs tracking-[0.2em] text-[var(--muted)] transition-colors hover:text-[var(--paper)]">
               画廊
             </a>
-            <a href="/about" className="text-sm text-[var(--muted)] hover:text-[var(--foreground)]">
+            <a href="/about" className="text-xs tracking-[0.2em] text-[var(--muted)] transition-colors hover:text-[var(--paper)]">
               关于
             </a>
           </nav>
         </header>
-        <main className="max-w-5xl mx-auto px-6 py-8">
-          {children}
-        </main>
-        <footer className="border-t border-[var(--border)] px-6 py-4 mt-8">
-          <div className="max-w-5xl mx-auto text-center text-xs text-[var(--muted)]">
+        <main>{children}</main>
+        <footer className="border-t border-[var(--border)] px-6 py-5">
+          <div className="mx-auto max-w-7xl text-center text-xs text-[var(--muted)]">
             <span>入画 · A research prototype on AI-assisted visual interpretation</span>
           </div>
         </footer>

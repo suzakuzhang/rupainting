@@ -59,9 +59,11 @@
 | API: interpret | `src/app/api/interpret/route.ts` | ✅ 接收 paintingId+mode+question，返回 JSON |
 | API: spirit | `src/app/api/spirit/{start,chat,end}/route.ts` | ✅ 改造为 viewId+paintingId 上下文 |
 
-### 部署待办（启动前）
-- 在 Render（或本地 .env）配置 `DEEPSEEK_API_KEY`、`GEMINI_API_KEY`、`PILOT_ADMIN_CODE`、`PILOT_ADMIN_BIRTH_DATE`
-- 当前 `npx next dev -p 10010` 起来后 / /gallery /painting/bada-001 /api/paintings 全部 200 OK；接口在无 key 时优雅返回 502
+### 部署状态（2026-04-28）
+- GitHub: `suzakuzhang/rupainting`（**私有**，仅作 research prototype 展示，不公开试运行）
+- Render: 在 dashboard 手动 New Web Service → 接 repo → render.yaml 自动识别 → 填 4 个 env vars (`DEEPSEEK_API_KEY` / `GEMINI_API_KEY` / `PILOT_ADMIN_CODE` / `PILOT_ADMIN_BIRTH_DATE`)
+- **不加 Render Disk**：因不公开，无需持久化 `access_data.json` / `spirit_data.json`，重新部署清空可接受
+- 本地 `npx next dev -p 10010` 之前 / /gallery /painting/bada-001 /api/paintings 全部 200 OK；接口在无 key 时优雅返回 502
 
 ### v2 待完成
 | 任务 | 优先级 |

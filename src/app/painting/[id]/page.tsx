@@ -34,6 +34,7 @@ export default function PaintingPage() {
   const [result, setResult] = useState<InterpretResponse | null>(null);
   const [error, setError] = useState("");
   const [viewId, setViewId] = useState("");
+  const [zoom, setZoom] = useState(1);
 
   useEffect(() => {
     fetch(`/api/paintings/${params.id}`)
@@ -83,7 +84,6 @@ export default function PaintingPage() {
 
   const onFollowUp = (q: string) => {
     setQuestion(q);
-    window.scrollTo({ top: 300, behavior: "smooth" });
   };
 
   if (error && !data) {
@@ -109,113 +109,137 @@ export default function PaintingPage() {
     : undefined;
 
   return (
-    <div className="space-y-8">
-      {/* Painting header */}
-      <section className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div className="border border-[var(--border)] rounded overflow-hidden bg-gray-50">
-          <img src={p.image_path} alt={p.title} className="w-full h-auto" />
-        </div>
-        <div className="space-y-3">
+    <div className="mx-auto grid max-w-7xl gap-5 px-4 py-5 lg:grid-cols-[minmax(0,1.08fr)_minmax(390px,0.92fr)] lg:px-5">
+      <section className="surface-ink sticky top-[4.25rem] flex max-h-[calc(100vh-5.5rem)] min-h-[34rem] flex-col overflow-hidden rounded-[8px]">
+        <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[var(--border)] px-4 py-3">
           <div>
-            <h1 className="text-2xl font-semibold leading-tight">{p.title}</h1>
+            <p className="text-[11px] tracking-[0.28em] text-[var(--muted)]">VIEWING ROOM</p>
+            <h1 className="mt-1 text-xl font-medium leading-tight tracking-[0.08em] text-[var(--paper)]">{p.title}</h1>
             {p.alt_titles && p.alt_titles.length > 0 && (
-              <p className="text-sm text-[var(--muted)] mt-1">别题：{p.alt_titles.join("、")}</p>
+              <p className="mt-1 text-xs text-[var(--muted)]">别题：{p.alt_titles.join("、")}</p>
             )}
           </div>
-          <dl className="text-sm space-y-1.5 text-[var(--muted)]">
-            <div><dt className="inline text-[var(--foreground)]">画家：</dt><dd className="inline">{a.name}（{a.given_name}，{a.dates}）</dd></div>
-            <div><dt className="inline text-[var(--foreground)]">材质：</dt><dd className="inline">{p.medium}</dd></div>
-            <div><dt className="inline text-[var(--foreground)]">尺寸：</dt><dd className="inline">{p.dimensions}</dd></div>
-            <div><dt className="inline text-[var(--foreground)]">形制：</dt><dd className="inline">{p.format}</dd></div>
-            <div><dt className="inline text-[var(--foreground)]">收藏：</dt><dd className="inline">{p.collection}</dd></div>
-            {p.approximate_date && (
-              <div><dt className="inline text-[var(--foreground)]">年代：</dt><dd className="inline">{p.approximate_date}</dd></div>
-            )}
-          </dl>
-
-          {p.subject_class.length > 0 && (
-            <div className="flex flex-wrap gap-1.5">
-              {p.subject_class.map((s) => (
-                <span key={s} className="text-xs px-2 py-0.5 rounded-full bg-gray-100 text-[var(--muted)]">{s}</span>
-              ))}
-            </div>
-          )}
+          <a href="/gallery" className="text-xs tracking-[0.18em] text-[var(--muted)] underline underline-offset-4 hover:text-[var(--paper)]">
+            返回画廊
+          </a>
         </div>
-      </section>
 
-      {/* Mode selector */}
-      <section className="space-y-3 border-t border-[var(--border)] pt-6">
-        <h2 className="text-base font-semibold">选一种读法</h2>
-        <ModeSelector value={mode} onChange={setMode} />
-      </section>
+        <div className="relative min-h-0 flex-1 overflow-auto bg-black/45 p-4">
+          <div className="flex min-h-full items-center justify-center">
+            <img
+              src={p.image_path}
+              alt={p.title}
+              className="max-h-full max-w-full object-contain transition-transform duration-500"
+              style={{ transform: `scale(${zoom})`, transformOrigin: "center center" }}
+            />
+          </div>
+        </div>
 
-      {/* Question / Roam entry */}
-      <section className="space-y-3">
-        {mode === "roam" ? (
-          <>
-            <label className="block text-sm font-medium">从哪里进入画面？</label>
+        <div className="border-t border-[var(--border)] px-4 py-3">
+          <div className="flex flex-wrap items-center gap-3">
+            <label className="text-xs tracking-[0.16em] text-[var(--muted)]">局部</label>
             <input
-              type="text"
-              value={roamEntry}
-              onChange={(e) => setRoamEntry(e.target.value)}
-              placeholder="例如：从右下角的鸟眼进入 / 从这方乾隆印进入 / 从枝头那滴墨进入（可留空让系统选）"
-              className="w-full border border-[var(--border)] rounded px-3 py-2 text-sm"
+              type="range"
+              min="1"
+              max="2.2"
+              step="0.05"
+              value={zoom}
+              onChange={(e) => setZoom(Number(e.target.value))}
+              className="min-w-[9rem] flex-1 accent-[var(--gold)]"
             />
-          </>
-        ) : (
-          <>
-            <label className="block text-sm font-medium">你想带着什么问题来看这幅画？（可留空）</label>
-            <textarea
-              value={question}
-              onChange={(e) => setQuestion(e.target.value)}
-              rows={3}
-              placeholder="例如：八大山人的鸟为什么要翻白眼？/ 这幅画的留白比墨色更让我紧张——为什么？"
-              className="w-full border border-[var(--border)] rounded px-3 py-2 text-sm resize-none"
-            />
-          </>
-        )}
-
-        <button
-          onClick={submit}
-          disabled={loading}
-          className="px-6 py-2.5 bg-[#1a1a1a] text-white rounded text-sm font-medium disabled:opacity-50 hover:bg-[#000] transition-colors"
-        >
-          {loading ? "正在读画…" : "开始读画"}
-        </button>
-        {error && <p className="text-sm text-red-600">{error}</p>}
-      </section>
-
-      {/* Loading */}
-      {loading && (
-        <section className="border-t border-[var(--border)] pt-6">
-          <LoadingOverlay visible={loading} paintingTitle={p.title} />
-        </section>
-      )}
-
-      {/* Result */}
-      {result && !loading && (
-        <section className="space-y-6 border-t border-[var(--border)] pt-6">
-          <div className="flex items-center justify-between">
-            <h2 className="text-base font-semibold">解读 · {modeLabel(result.mode)}</h2>
             <button
-              onClick={() => {
-                setResult(null);
-                setQuestion("");
-                setRoamEntry("");
-              }}
-              className="text-xs text-[var(--muted)] underline hover:text-[var(--foreground)]"
+              onClick={() => setZoom(1)}
+              className="rounded-full border border-[var(--border)] px-3 py-1 text-xs text-[var(--muted)] transition-colors hover:border-[var(--gold)] hover:text-[var(--paper)]"
             >
-              换一种读法
+              复位
             </button>
           </div>
-          <InterpretationPanel
-            mode={result.mode}
-            result={result.result as never}
-            onFollowUp={onFollowUp}
-          />
+          <dl className="mt-3 grid grid-cols-2 gap-x-4 gap-y-1 text-xs leading-6 text-[var(--muted)] md:grid-cols-3">
+            <div><dt className="inline text-[var(--paper-dim)]">画家：</dt><dd className="inline">{a.name}</dd></div>
+            <div><dt className="inline text-[var(--paper-dim)]">材质：</dt><dd className="inline">{p.medium}</dd></div>
+            <div><dt className="inline text-[var(--paper-dim)]">尺寸：</dt><dd className="inline">{p.dimensions}</dd></div>
+            <div><dt className="inline text-[var(--paper-dim)]">形制：</dt><dd className="inline">{p.format}</dd></div>
+            <div className="md:col-span-2"><dt className="inline text-[var(--paper-dim)]">收藏：</dt><dd className="inline">{p.collection}</dd></div>
+          </dl>
+        </div>
+      </section>
 
-          {/* Spirit panel — only after a successful interpretation */}
-          <div className="pt-6 border-t border-[var(--border)]">
+      <aside className="space-y-4 lg:max-h-[calc(100vh-5.5rem)] lg:overflow-y-auto lg:pr-1">
+        <section className="surface-ink ink-rise rounded-[8px] p-4">
+          <div className="mb-3 flex items-center justify-between gap-3">
+            <div>
+              <p className="text-[11px] tracking-[0.28em] text-[var(--muted)]">GUIDE</p>
+              <h2 className="mt-1 text-base font-medium tracking-[0.12em] text-[var(--paper)]">选一种读法</h2>
+            </div>
+            {p.subject_class.length > 0 && (
+              <div className="flex max-w-[45%] flex-wrap justify-end gap-1.5">
+                {p.subject_class.map((s) => (
+                  <span key={s} className="rounded-full border border-[var(--border)] px-2 py-0.5 text-[11px] text-[var(--muted)]">{s}</span>
+                ))}
+              </div>
+            )}
+          </div>
+          <ModeSelector value={mode} onChange={setMode} />
+        </section>
+
+        <section className="surface-ink space-y-3 rounded-[8px] p-4">
+          {mode === "roam" ? (
+            <>
+              <label className="block text-sm font-medium text-[var(--paper)]">从哪里进入画面？</label>
+              <input
+                type="text"
+                value={roamEntry}
+                onChange={(e) => setRoamEntry(e.target.value)}
+                placeholder="从右下角的鸟眼进入 / 从枝头那滴墨进入（可留空）"
+                className="field-ink w-full rounded px-3 py-2 text-sm"
+              />
+            </>
+          ) : (
+            <>
+              <label className="block text-sm font-medium text-[var(--paper)]">你想带着什么问题来看？（可留空）</label>
+              <textarea
+                value={question}
+                onChange={(e) => setQuestion(e.target.value)}
+                rows={3}
+                placeholder="八大山人的鸟为什么要翻白眼？留白为什么比墨色更让我紧张？"
+                className="field-ink w-full resize-none rounded px-3 py-2 text-sm"
+              />
+            </>
+          )}
+
+          <button
+            onClick={submit}
+            disabled={loading}
+            className="btn-ink w-full rounded-full px-6 py-2.5 text-sm font-medium tracking-[0.12em] disabled:opacity-50"
+          >
+            {loading ? "正在读画…" : "开始读画"}
+          </button>
+          {error && <p className="text-sm text-[var(--seal)]">{error}</p>}
+        </section>
+
+        {loading && <LoadingOverlay visible={loading} paintingTitle={p.title} />}
+
+        {result && !loading && (
+          <section className="space-y-4">
+            <div className="surface-ink flex items-center justify-between rounded-[8px] px-4 py-3">
+              <h2 className="text-sm font-medium tracking-[0.16em] text-[var(--paper)]">解读 · {modeLabel(result.mode)}</h2>
+              <button
+                onClick={() => {
+                  setResult(null);
+                  setQuestion("");
+                  setRoamEntry("");
+                }}
+                className="text-xs text-[var(--muted)] underline underline-offset-4 hover:text-[var(--paper)]"
+              >
+                换一种读法
+              </button>
+            </div>
+            <InterpretationPanel
+              mode={result.mode}
+              result={result.result as never}
+              onFollowUp={onFollowUp}
+            />
+
             <SpiritPanel
               viewId={viewId}
               paintingId={p.id}
@@ -223,9 +247,9 @@ export default function PaintingPage() {
               question={question}
               initialInterpretation={interpretationSummary}
             />
-          </div>
-        </section>
-      )}
+          </section>
+        )}
+      </aside>
     </div>
   );
 }
