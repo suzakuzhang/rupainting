@@ -29,8 +29,20 @@ export default function RootLayout({
         </header>
         <main>{children}</main>
         <footer className="border-t border-[var(--border)] px-6 py-5">
-          <div className="mx-auto max-w-7xl text-center text-xs text-[var(--muted)]">
+          <div className="mx-auto flex max-w-7xl flex-col items-center justify-center gap-2 text-center text-xs text-[var(--muted)] sm:flex-row sm:gap-4">
             <span>入画 · A research prototype on AI-assisted visual interpretation</span>
+            <span className="hidden text-[var(--border)] sm:inline">/</span>
+            <span>
+              网页与系统设计:{" "}
+              <a
+                href="https://github.com/suzakuzhang/rupainting"
+                target="_blank"
+                rel="noreferrer"
+                className="text-[var(--paper-dim)] underline underline-offset-4 transition-colors hover:text-[var(--gold)]"
+              >
+                shuminzhang
+              </a>
+            </span>
           </div>
         </footer>
       </body>
