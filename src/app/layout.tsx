@@ -40,7 +40,7 @@ export default function RootLayout({
                 rel="noreferrer"
                 className="text-[var(--paper-dim)] underline underline-offset-4 transition-colors hover:text-[var(--gold)]"
               >
-                shuminzhang
+                ShuminZhang
               </a>
             </span>
           </div>
